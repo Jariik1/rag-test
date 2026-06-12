@@ -348,17 +348,17 @@ if(architecture){
    PARALLAX HERO
 ========================= */
 
-const hero =
+const parallaxHero =
     document.querySelector(".hero");
 
 window.addEventListener("scroll", () => {
 
-    if(!hero) return;
+    if(!parallaxHero) return;
 
     const offset =
         window.scrollY * 0.2;
 
-    hero.style.backgroundPositionY =
+    parallaxHero.style.backgroundPositionY =
         offset + "px";
 
 });
