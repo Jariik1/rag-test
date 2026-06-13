@@ -3295,6 +3295,121 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
 }
 
 /* =========================
+   KNOWLEDGE HUB / ORBIT
+========================= */
+.nb-orb-wrap{
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    align-items:center;
+    gap:60px;
+    margin-top:50px;
+}
+.nb-orb-copy h2{
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+    font-size:clamp(30px,3.4vw,48px);
+    line-height:1.05;
+    letter-spacing:-1.5px;
+    margin:18px 0 18px;
+}
+.nb-orb-copy p{
+    color:rgba(255,255,255,.62);
+    font-size:1rem;
+    line-height:1.7;
+    max-width:440px;
+}
+.nb-orb-stage{
+    position:relative;
+    width:100%;
+    max-width:460px;
+    aspect-ratio:1/1;
+    margin:0 auto;
+    border-radius:28px;
+    background:
+        radial-gradient(circle at 50% 50%,
+            rgba(255,122,26,.05), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.18));
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+    overflow:hidden;
+    isolation:isolate;
+}
+/* glowing core */
+.nb-orb-core{
+    position:absolute;
+    top:50%;left:50%;
+    width:118px;height:118px;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle at 38% 32%,
+        #ffe6b0 0%, #ffae50 38%, #ff7a1a 66%, #ff5400 100%);
+    box-shadow:
+        0 0 50px rgba(255,122,26,.65),
+        0 0 110px rgba(255,90,20,.4),
+        inset 0 -8px 18px rgba(180,50,0,.45),
+        inset 0 6px 14px rgba(255,240,210,.55);
+    z-index:3;
+    animation:nbOrbPulse 4.5s ease-in-out infinite;
+}
+.nb-orb-core svg{filter:drop-shadow(0 2px 6px rgba(120,40,0,.5));}
+@keyframes nbOrbPulse{
+    0%,100%{box-shadow:0 0 50px rgba(255,122,26,.6),0 0 110px rgba(255,90,20,.35),inset 0 -8px 18px rgba(180,50,0,.45),inset 0 6px 14px rgba(255,240,210,.55);}
+    50%{box-shadow:0 0 72px rgba(255,140,40,.85),0 0 150px rgba(255,90,20,.5),inset 0 -8px 18px rgba(180,50,0,.45),inset 0 6px 14px rgba(255,240,210,.6);}
+}
+/* expanding ripple rings */
+.nb-orb-wave{
+    position:absolute;
+    top:50%;left:50%;
+    width:118px;height:118px;
+    border-radius:50%;
+    border:1.5px solid rgba(255,138,42,.4);
+    transform:translate(-50%,-50%) scale(.6);
+    z-index:2;
+    pointer-events:none;
+    animation:nbOrbRipple 4s ease-out infinite;
+}
+.nb-orb-wave:nth-child(2){animation-delay:1.3s;}
+.nb-orb-wave:nth-child(3){animation-delay:2.6s;}
+@keyframes nbOrbRipple{
+    0%{transform:translate(-50%,-50%) scale(.6);opacity:.65;}
+    100%{transform:translate(-50%,-50%) scale(3.3);opacity:0;}
+}
+/* orbiting node chips */
+.nb-orb-node{
+    position:absolute;
+    width:56px;height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:
+        linear-gradient(135deg, rgba(40,40,40,.9), rgba(18,18,18,.9));
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.14),
+        0 8px 24px rgba(0,0,0,.45),
+        0 0 22px rgba(255,122,26,.18);
+    z-index:4;
+    animation:nbOrbFloat 6s ease-in-out infinite;
+}
+.nb-orb-node--nw{top:13%;left:13%;}
+.nb-orb-node--ne{top:13%;right:13%;animation-delay:1.5s;}
+.nb-orb-node--sw{bottom:13%;left:13%;animation-delay:3s;}
+.nb-orb-node--se{bottom:13%;right:13%;animation-delay:4.5s;}
+@keyframes nbOrbFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-9px);}
+}
+@media(max-width:900px){
+    .nb-orb-wrap{grid-template-columns:1fr;gap:40px;}
+    .nb-orb-copy p{max-width:none;}
+    .nb-orb-stage{max-width:380px;}
+}
+
+/* =========================
    A11Y — KEYBOARD FOCUS
    visible focus ring for keyboard users only
    (mouse clicks stay clean via :focus-visible)
