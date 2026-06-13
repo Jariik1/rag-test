@@ -703,6 +703,7 @@ body{
     width:4px;height:4px;
     border-radius:50%;
     background:#ff7a1a;
+    box-shadow:0 0 6px rgba(255,138,42,.9);
 }
 
 /* sources */
@@ -2028,6 +2029,9 @@ body{
     filter:blur(12px);
 }
 .nb-cta-btn:hover::before{opacity:1;}
+/* primary CTA keeps a soft glow at rest, blooms on hover */
+.nb-cta-btn.primary::before{opacity:.55;}
+.nb-cta-btn.primary:hover::before{opacity:1;}
 
 .nb-cta-btn.primary{
     background:
@@ -2446,29 +2450,52 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
 /* Section base — warm gradient backdrop so glass has something to refract */
 .nb-sec{
     position:relative;
-    background-color:#0a0a0a;
-    /* faint technical dot-grid over the warm radial glows */
-    background-image:
-        radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.5px),
+    /* warm beam from top center + corner glows = lens-flare ambience */
+    background:
+        radial-gradient(1100px 520px at 50% -12%,
+            rgba(255,138,42,.18), transparent 62%),
         radial-gradient(900px 600px at 12% 0%,
-            rgba(255,122,26,.22), transparent 60%),
+            rgba(255,122,26,.24), transparent 60%),
         radial-gradient(700px 500px at 88% 100%,
-            rgba(255,170,80,.14), transparent 60%),
+            rgba(255,170,80,.16), transparent 60%),
         linear-gradient(180deg, #0a0707 0%, #0a0a0a 100%);
-    background-size:28px 28px, auto, auto, auto;
     color:#fff;
     padding:100px 60px;
     overflow:hidden;
 }
+/* slow drifting orange bloom — soft "sun" glow */
+.nb-sec::after{
+    content:"";
+    position:absolute;
+    width:760px;height:760px;
+    right:-180px;bottom:-260px;
+    background:radial-gradient(circle,
+        rgba(255,122,26,.30) 0%,
+        rgba(255,90,20,.12) 38%,
+        transparent 68%);
+    filter:blur(40px);
+    pointer-events:none;
+    z-index:0;
+    animation:nbSecGlow 16s ease-in-out infinite;
+}
+.nb-sec > *{position:relative;z-index:1;}
+@keyframes nbSecGlow{
+    0%,100%{transform:translate(0,0) scale(1);opacity:.9;}
+    50%{transform:translate(-40px,-30px) scale(1.12);opacity:1;}
+}
 .nb-sec.alt{
-    background-color:#050505;
-    background-image:
-        radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.5px),
+    background:
+        radial-gradient(1000px 480px at 50% -12%,
+            rgba(255,120,30,.14), transparent 62%),
         radial-gradient(800px 500px at 90% 0%,
-            rgba(255,140,40,.18), transparent 60%),
+            rgba(255,140,40,.22), transparent 60%),
         radial-gradient(600px 400px at 10% 100%,
-            rgba(255,90,20,.10), transparent 60%),
+            rgba(255,90,20,.12), transparent 60%),
         linear-gradient(180deg, #060403 0%, #050505 100%);
+}
+.nb-sec.alt::after{
+    right:auto;left:-180px;bottom:auto;top:-260px;
+    animation-duration:19s;
 }
 .nb-sec-head{
     display:flex;
@@ -2480,10 +2507,30 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     border-bottom:1px solid rgba(255,255,255,.08);
 }
 .nb-sec-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
     font-family:'Manrope',sans-serif;
-    color:rgba(255,255,255,.42);
+    color:#ff9a3a;
     font-weight:700;
-    font-size:.9rem;
+    font-size:.72rem;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    padding:7px 14px;
+    border:1px solid rgba(255,138,42,.40);
+    border-radius:999px;
+    background:rgba(255,122,26,.08);
+    box-shadow:0 0 18px rgba(255,122,26,.18),
+        inset 0 0 12px rgba(255,122,26,.08);
+}
+/* bracket tick marks flanking the label */
+.nb-sec-tag::before,
+.nb-sec-tag::after{
+    content:"";
+    width:2px;height:11px;
+    border-radius:2px;
+    background:#ff8a2a;
+    box-shadow:0 0 8px rgba(255,138,42,.7);
 }
 .nb-sec-head h2{
     font-family:'Manrope',sans-serif;
@@ -2755,7 +2802,8 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     left:0;top:13px;
     width:5px;height:5px;
     border-radius:50%;
-    background:#ff7a1a;
+    background:radial-gradient(circle at 50% 40%,#ffd9a0,#ff7a1a 60%);
+    box-shadow:0 0 8px rgba(255,138,42,.85);
 }
 
 /* Timeline */
@@ -2939,19 +2987,21 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     gap:6px;
 }
 .nb-pp-value ul li{
-    padding-left:24px;
+    padding-left:26px;
     position:relative;
 }
-/* glowing accent diamond marker */
+/* glowing orange marker — soft halo, bright core */
 .nb-pp-value ul li::before{
     content:"";
     position:absolute;
-    left:2px;top:.55em;
-    width:8px;height:8px;
-    transform:translateY(-50%) rotate(45deg);
-    background:linear-gradient(135deg,#ff7a1a,#ffb347);
-    border-radius:2px;
-    box-shadow:0 0 10px rgba(255,122,26,.55);
+    left:3px;top:.5em;
+    width:9px;height:9px;
+    transform:translateY(-50%);
+    border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,#ffd9a0,#ff7a1a 60%);
+    box-shadow:
+        0 0 0 3px rgba(255,122,26,.16),
+        0 0 12px rgba(255,138,42,.85);
 }
 
 /* Resources */
