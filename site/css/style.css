@@ -113,7 +113,7 @@ body{
        set their own dark color explicitly. */
     color:rgba(255,255,255,.9);
     line-height:1.5;
-    overflow-x:hidden;
+    overflow-x:clip;
     -webkit-font-smoothing:antialiased;
 }
 
@@ -284,6 +284,7 @@ body{
         );
     color:#1a0a00;
     background-size:180% 180%;
+    animation:nbGradientShift 20s ease-in-out infinite;
 }
 /* animated grain overlay */
 .nb-hero::before{
@@ -3880,6 +3881,56 @@ body.kvyyk-body{
 .liquid-light{
     backdrop-filter:none !important;
     -webkit-backdrop-filter:none !important;
+}
+
+/* =========================
+   TEAM — sticky stacking cards (reformcollective-style)
+========================= */
+.nb-sec.nb-sec-stack{overflow:clip;}
+.nb-stack{
+    display:flex;flex-direction:column;gap:26px;
+    margin-top:24px;padding-bottom:40px;
+}
+.nb-stack-card{
+    position:sticky;
+    top:calc(100px + var(--i) * 16px);
+    min-height:420px;
+    display:grid;grid-template-columns:.92fr 1.08fr;
+    border-radius:28px;overflow:hidden;
+    background:linear-gradient(180deg,#241710,#190f0a);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 -10px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.nb-stack-media{position:relative;overflow:hidden;min-height:300px;}
+.nb-stack-media img{width:100%;height:100%;object-fit:cover;display:block;}
+.nb-stack-media::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(100deg,transparent 35%,rgba(25,15,10,.7));
+}
+.nb-stack-body{
+    padding:46px 52px;
+    display:flex;flex-direction:column;justify-content:center;gap:13px;
+}
+.nb-stack-num{
+    font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    color:#ff9a3a;font-size:.85rem;letter-spacing:.12em;
+}
+.nb-stack-body h3{
+    font-family:'Manrope',sans-serif;font-weight:800;
+    font-size:clamp(28px,3.2vw,46px);line-height:1.04;letter-spacing:-1px;color:#fff;
+}
+.nb-stack-role{color:rgba(255,255,255,.6);font-size:1.05rem;}
+.nb-stack-body p{color:rgba(255,255,255,.55);line-height:1.6;max-width:430px;}
+.nb-stack-skills{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px;}
+.nb-stack-skills span{
+    font-size:.8rem;color:#ffb377;
+    background:rgba(255,122,26,.1);border:1px solid rgba(255,122,26,.3);
+    border-radius:999px;padding:7px 15px;
+}
+@media(max-width:760px){
+    .nb-stack-card{grid-template-columns:1fr;min-height:auto;top:calc(82px + var(--i)*12px);}
+    .nb-stack-media{min-height:200px;height:200px;}
+    .nb-stack-body{padding:28px 26px;}
 }
 
 /* =========================
