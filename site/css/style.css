@@ -2144,102 +2144,6 @@ body{
     overflow:hidden;
     text-align:left;
 }
-.nb-footer-grid{
-    display:grid;
-    grid-template-columns: 1.4fr 1fr 1fr;
-    gap:50px;
-    margin-bottom:50px;
-}
-.nb-footer-brand h3{
-    color:#fff;
-    font-family:'Manrope',sans-serif;
-    font-weight:800;
-    font-size:1.8rem;
-    letter-spacing:-.5px;
-    margin-bottom:10px;
-}
-.nb-footer-brand h3 .dot{
-    display:inline-block;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#ff7a1a,#ffb347);
-    margin:0 4px 2px;
-    vertical-align:middle;
-    box-shadow:0 0 18px rgba(255,122,26,.6);
-}
-.nb-footer-brand p{
-    color:rgba(255,255,255,.55);
-    max-width:340px;
-    line-height:1.55;
-    font-size:.95rem;
-}
-.nb-footer-col h4{
-    color:#fff;
-    font-family:'Manrope',sans-serif;
-    font-weight:700;
-    font-size:.85rem;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-    margin-bottom:18px;
-    opacity:.85;
-}
-.nb-footer-col ul{
-    list-style:none;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
-.nb-footer-col ul a{
-    color:rgba(255,255,255,.6);
-    text-decoration:none;
-    font-size:.95rem;
-    transition:color .25s, transform .25s;
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-}
-.nb-footer-col ul a::before{
-    content:"";
-    width:4px;height:4px;
-    border-radius:50%;
-    background:rgba(255,122,26,.45);
-    opacity:0;
-    transform:translateX(-4px);
-    transition:opacity .25s, transform .25s;
-}
-.nb-footer-col ul a:hover{
-    color:#ff9a4a;
-    transform:translateX(2px);
-}
-.nb-footer-col ul a:hover::before{
-    opacity:1;
-    transform:translateX(0);
-}
-.nb-footer-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding-top:24px;
-    border-top:1px solid rgba(255,255,255,.06);
-    font-size:.85rem;
-    color:rgba(255,255,255,.4);
-    font-family:'Manrope',sans-serif;
-}
-.nb-footer-mark{
-    color:rgba(255,255,255,.5);
-}
-/* legacy footer-row support (kept for any old markup) */
-.nb-footer-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-.nb-footer h3{
-    color:#fff;
-    font-family:'Manrope',sans-serif;
-    font-weight:800;
-    margin-bottom:4px;
-}
 
 /* =========================
    PROGRESS BAR
@@ -3299,8 +3203,6 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     .nb-tech-grid{grid-template-columns:1fr;}
     .nb-cta{padding:80px 24px;}
     .nb-footer{padding:50px 24px 28px;}
-    .nb-footer-grid{grid-template-columns:1fr;gap:36px;margin-bottom:36px;}
-    .nb-footer-bottom{flex-direction:column;gap:10px;text-align:center;}
     .nb-nav{padding:10px 16px;}
     .nb-links{display:none;}
     .nb-bg-brand{font-size:120px;letter-spacing:-4px;}
