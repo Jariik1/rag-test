@@ -3599,6 +3599,50 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
 @keyframes kvyTextFade{0%,20%,80%,100%{opacity:.4;}50%{opacity:1;}}
 
 /* =========================
+   UNIFIED HOME BACKGROUND
+   one continuous layer below the hero; the hero keeps its
+   own bright gradient and flows smoothly into the rest.
+========================= */
+body.home{position:relative;}
+.home-bg{
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background:
+        radial-gradient(1100px 700px at 85% 20%, rgba(255,109,20,.22), transparent 55%),
+        radial-gradient(950px 720px at 10% 42%, rgba(255,150,60,.14), transparent 55%),
+        radial-gradient(1100px 800px at 88% 64%, rgba(255,90,20,.14), transparent 55%),
+        radial-gradient(1000px 800px at 8% 82%, rgba(255,140,40,.13), transparent 55%),
+        linear-gradient(180deg, #1a0d06 0%, #100a07 30%, #0a0807 60%, #080606 100%);
+}
+
+/* first block after the hero = smooth bridge from the bright hero
+   into the unified dark background (full-bleed, no card) */
+.home .nb-dark{
+    background:transparent;
+    margin:0;
+    border-radius:0;
+}
+.home .nb-dark::before{display:none;}          /* drop the card inner border */
+.home .nb-dark::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    /* horizontal tone copies the hero's bottom edge (cream→orange) */
+    background:linear-gradient(100deg, #f8cf8c 0%, #ffae54 50%, #ff8a2a 100%);
+    /* fade downward to reveal the unified dark layer beneath */
+    -webkit-mask:linear-gradient(180deg, #000 0%, #000 6%, transparent 54%);
+    mask:linear-gradient(180deg, #000 0%, #000 6%, transparent 54%);
+}
+
+/* the following sections let the unified layer show through */
+.home .nb-showcase,
+.home .nb-section{background:transparent;}
+
+/* =========================
    A11Y — KEYBOARD FOCUS
    visible focus ring for keyboard users only
    (mouse clicks stay clean via :focus-visible)
