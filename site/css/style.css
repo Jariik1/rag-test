@@ -3809,10 +3809,34 @@ body.kvyyk-body{
     filter:blur(42px);
     border-radius:58% 42% 55% 45% / 52% 60% 40% 48%;
     opacity:.95;
+    animation:nbBloom 9s ease-in-out infinite;
+}
+@keyframes nbBloom{
+    0%,100%{transform:translateY(-50%) scale(1);}
+    50%{transform:translateY(-50%) scale(1.06);}
+}
+/* rising embers over the bloom */
+.nb-embers{
+    position:absolute;z-index:1;pointer-events:none;
+    right:0;top:0;bottom:0;width:55%;overflow:hidden;
+}
+.nb-ember{
+    position:absolute;bottom:14%;border-radius:50%;
+    background:radial-gradient(circle at 50% 40%,#ffe2b4,#ff7a1a 70%);
+    box-shadow:0 0 10px 2px rgba(255,138,42,.7);
+    opacity:0;
+    animation:nbEmber linear infinite;
+}
+@keyframes nbEmber{
+    0%{transform:translate(0,0) scale(.5);opacity:0;}
+    12%{opacity:.95;}
+    78%{opacity:.7;}
+    100%{transform:translate(var(--dx,14px),-280px) scale(1.1);opacity:0;}
 }
 @media(max-width:900px){
     .nb-orb-copy{max-width:none;}
     .nb-paint{right:-22%;top:88%;width:min(420px,80vw);opacity:.7;}
+    .nb-embers{display:none;}
 }
 
 /* =========================
