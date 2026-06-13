@@ -3648,6 +3648,116 @@ body.kvyyk-body{
 }
 
 /* =========================
+   FOOTER — brand card + glass panel + email watermark
+========================= */
+.nb-footer{border-top:none;padding:60px 28px 28px;}
+.nb-foot{
+    display:grid;
+    grid-template-columns:.82fr 1.18fr;
+    gap:16px;
+    max-width:1320px;
+    margin:0 auto;
+}
+/* left orange brand card */
+.nb-foot-brand{
+    position:relative;
+    border-radius:28px;
+    padding:30px 32px;
+    min-height:240px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:30px;
+    overflow:hidden;
+    color:#1a0a00;
+    background:linear-gradient(150deg,#ff8a2a 0%,#ff5400 60%,#df470a 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 30px 70px rgba(120,40,0,.3);
+}
+.nb-foot-logo{
+    font-size:1.5rem;
+    text-decoration:none;
+    color:#1a0a00;
+    align-self:flex-start;
+}
+.nb-foot-logo .kvy-br{color:#3a1402;text-shadow:none;}
+.nb-foot-tagline{
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+    font-size:1.6rem;
+    line-height:1.12;
+    letter-spacing:-.5px;
+}
+.nb-foot-tagline span{color:rgba(26,10,0,.5);}
+
+/* right glass panel */
+.nb-foot-panel{
+    position:relative;
+    border-radius:28px;
+    padding:30px 36px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:34px;
+    background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+}
+.nb-foot-mark{
+    position:absolute;top:26px;right:30px;
+    width:42px;height:42px;border-radius:13px;
+}
+.nb-foot-cols{display:flex;gap:64px;}
+.nb-foot-col{display:flex;flex-direction:column;gap:13px;}
+.nb-foot-h{
+    font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(255,255,255,.4);margin-bottom:3px;
+}
+.nb-foot-col a{
+    color:rgba(255,255,255,.82);text-decoration:none;font-size:.95rem;
+    transition:color .2s ease;
+}
+.nb-foot-col a:hover{color:#ff9a3a;}
+.nb-foot-row{
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    border-top:1px solid rgba(255,255,255,.08);padding-top:22px;
+}
+.nb-foot-copy{color:rgba(255,255,255,.45);font-size:.82rem;}
+.nb-foot-cta{
+    flex-shrink:0;
+    background:linear-gradient(135deg,#ff7a1a,#ff5400);
+    color:#fff;text-decoration:none;font-weight:700;font-size:.88rem;
+    padding:12px 24px;border-radius:999px;
+    box-shadow:0 8px 24px rgba(255,84,0,.3);
+    transition:transform .2s ease, box-shadow .2s ease;
+}
+.nb-foot-cta:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,84,0,.45);}
+
+/* giant email watermark */
+.nb-foot-email{
+    margin-top:30px;
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+    font-size:clamp(18px,5.15vw,86px);
+    line-height:1;
+    letter-spacing:-2px;
+    text-align:center;
+    white-space:nowrap;
+    color:rgba(255,150,80,.14);
+    user-select:all;
+}
+@media(max-width:860px){
+    .nb-foot{grid-template-columns:1fr;}
+    .nb-foot-brand{min-height:180px;}
+}
+@media(max-width:560px){
+    .nb-foot-cols{gap:36px;}
+    .nb-foot-row{flex-direction:column;align-items:flex-start;gap:16px;}
+}
+
+/* =========================
    A11Y — KEYBOARD FOCUS
    visible focus ring for keyboard users only
    (mouse clicks stay clean via :focus-visible)
