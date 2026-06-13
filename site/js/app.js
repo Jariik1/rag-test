@@ -309,42 +309,6 @@ navLinks.forEach(link => {
 });
 
 /* =========================
-   FLOATING EFFECT
-========================= */
-
-const architecture =
-    document.querySelector(
-        ".architecture-card"
-    );
-
-if(architecture){
-
-    let direction = 1;
-
-    setInterval(() => {
-
-        const current =
-            architecture.style.transform;
-
-        if(direction === 1){
-
-            architecture.style.transform =
-                "translateY(-8px)";
-
-        }else{
-
-            architecture.style.transform =
-                "translateY(0px)";
-
-        }
-
-        direction *= -1;
-
-    },1500);
-
-}
-
-/* =========================
    PARALLAX HERO
 ========================= */
 
