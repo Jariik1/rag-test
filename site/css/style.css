@@ -3469,6 +3469,32 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
 }
 
 /* =========================
+   LIQUID GLASS — real refraction
+   feDisplacementMap (#lg-distortion) bends the backdrop
+   like the liquid-glass-react library, but dependency-free.
+   1st declaration = plain-blur fallback (Safari ignores
+   url() in backdrop-filter); 2nd = refraction (Chromium/FF).
+========================= */
+.nb-nav-inner,
+.nb-tech,
+.nb-team-card,
+.nb-kpi-grid,
+.nb-cta-btn.primary,
+.nb-cta-btn.ghost,
+.nb-orb-node,
+.nb-glass,
+.nb-arch-item,
+.nb-res-card,
+.nb-sum-card,
+.liquid,
+.liquid-light{
+    backdrop-filter:blur(16px) saturate(180%) brightness(1.08);
+    -webkit-backdrop-filter:blur(16px) saturate(180%) brightness(1.08);
+    backdrop-filter:url(#lg-distortion) blur(7px) saturate(180%) brightness(1.08);
+    -webkit-backdrop-filter:url(#lg-distortion) blur(7px) saturate(180%) brightness(1.08);
+}
+
+/* =========================
    A11Y — KEYBOARD FOCUS
    visible focus ring for keyboard users only
    (mouse clicks stay clean via :focus-visible)
