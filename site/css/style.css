@@ -3377,6 +3377,16 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     overflow:hidden;
     isolation:isolate;
 }
+/* AI-generated knowledge core video */
+.nb-orb-video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:inherit;
+    z-index:0;
+}
 /* glowing core */
 .nb-orb-core{
     position:absolute;
