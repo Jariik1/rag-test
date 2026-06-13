@@ -206,18 +206,10 @@ body{
         0 22px 60px rgba(0,0,0,.5);
 }
 .nb-brand{
-    display:inline-flex;
-    align-items:center;
-    line-height:0;
     font-weight:800;
     letter-spacing:.5px;
     color:#fff;
     font-size:.95rem;
-}
-.nb-brand img{
-    height:30px;
-    width:auto;
-    display:block;
 }
 .nb-links{
     list-style:none;
