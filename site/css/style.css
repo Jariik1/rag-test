@@ -3660,6 +3660,93 @@ body.kvyyk-body{
 }
 
 /* =========================
+   BLOCK 2 — flying streaks + RAG pipeline
+========================= */
+.nb-dash-field{
+    position:absolute;inset:0;overflow:hidden;
+    border-radius:inherit;z-index:0;pointer-events:none;
+}
+.nb-dash{
+    position:absolute;left:0;height:2px;border-radius:2px;
+    background:#ff5a1e;box-shadow:0 0 8px rgba(255,90,20,.55);
+    transform:translateX(-25vw);opacity:0;
+    animation:nbDash linear infinite;
+}
+@keyframes nbDash{
+    0%{transform:translateX(-25vw);opacity:0;}
+    8%{opacity:.85;}
+    90%{opacity:.85;}
+    100%{transform:translateX(115vw);opacity:0;}
+}
+.nb-dark-title{text-shadow:0 2px 26px rgba(10,5,2,.55);}
+
+.nb-pipe{
+    position:relative;z-index:1;
+    max-width:780px;margin:36px auto 0;
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+    font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;
+}
+.nb-pipe-off{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.4);
+    border:1px dashed rgba(255,255,255,.18);border-radius:9px;padding:7px 16px;
+}
+.nb-pipe-off i{color:#ff5a1e;font-style:normal;font-weight:700;}
+.nb-pipe-cross{color:#ff5a1e;font-size:.85rem;opacity:.65;line-height:1;}
+.nb-pipe-flow{
+    position:relative;width:100%;
+    border:1px dashed rgba(255,138,42,.32);border-radius:18px;
+    padding:26px 22px 22px;
+}
+.nb-pipe-label{
+    position:absolute;top:-8px;left:22px;
+    background:#1d130d;padding:0 9px;
+    font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+    color:rgba(255,154,58,.85);
+}
+.nb-pipe-stage{display:flex;align-items:center;}
+.nb-pipe-box{
+    flex:1;min-width:0;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:12px;padding:16px 12px;text-align:center;
+    display:flex;flex-direction:column;gap:5px;
+}
+.nb-pipe-box b{font-size:.95rem;color:#fff;font-weight:600;}
+.nb-pipe-box small{font-size:.6rem;color:rgba(255,255,255,.45);letter-spacing:.02em;line-height:1.3;}
+.nb-pipe-core{
+    border-color:rgba(255,138,42,.5);
+    box-shadow:0 0 26px rgba(255,122,26,.2),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.nb-pipe-core b{font-size:1.05rem;}
+.nb-pipe-wire{
+    position:relative;flex:0 0 44px;height:2px;
+    background:linear-gradient(90deg,rgba(255,138,42,.55),rgba(255,138,42,.12));
+}
+.nb-pipe-wire i{
+    position:absolute;top:50%;left:-3px;width:6px;height:6px;border-radius:50%;
+    background:#ff9a3a;box-shadow:0 0 8px 2px rgba(255,138,42,.85);
+    transform:translateY(-50%);
+    animation:nbWire 2.2s ease-in-out infinite;
+}
+.nb-pipe-stage .nb-pipe-wire:last-of-type i{animation-delay:1.1s;}
+@keyframes nbWire{
+    0%{transform:translate(0,-50%);opacity:0;}
+    12%{opacity:1;}
+    88%{opacity:1;}
+    100%{transform:translate(44px,-50%);opacity:0;}
+}
+@media(max-width:680px){
+    .nb-pipe-stage{flex-direction:column;}
+    .nb-pipe-box{width:100%;}
+    .nb-pipe-wire{flex-basis:26px;width:2px;height:26px;
+        background:linear-gradient(180deg,rgba(255,138,42,.55),rgba(255,138,42,.12));}
+    .nb-pipe-wire i{left:50%;top:-3px;transform:translateX(-50%);animation:nbWireV 2.2s ease-in-out infinite;}
+    @keyframes nbWireV{0%{transform:translate(-50%,0);opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{transform:translate(-50%,26px);opacity:0;}}
+}
+
+/* =========================
    A11Y — KEYBOARD FOCUS
    visible focus ring for keyboard users only
    (mouse clicks stay clean via :focus-visible)
