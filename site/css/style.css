@@ -284,7 +284,6 @@ body{
         );
     color:#1a0a00;
     background-size:180% 180%;
-    animation:nbGradientShift 18s ease-in-out infinite;
 }
 /* animated grain overlay */
 .nb-hero::before{
@@ -2262,7 +2261,6 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     color:#1a0a00;
     overflow:hidden;
     background-size:200% 200%;
-    animation:nbGradientShift 16s ease infinite;
 }
 @keyframes nbGradientShift{
     0%,100%{background-position:0% 0%;}
@@ -3809,34 +3807,10 @@ body.kvyyk-body{
     filter:blur(42px);
     border-radius:58% 42% 55% 45% / 52% 60% 40% 48%;
     opacity:.95;
-    animation:nbBloom 9s ease-in-out infinite;
-}
-@keyframes nbBloom{
-    0%,100%{transform:translateY(-50%) scale(1);}
-    50%{transform:translateY(-50%) scale(1.06);}
-}
-/* rising embers over the bloom */
-.nb-embers{
-    position:absolute;z-index:1;pointer-events:none;
-    right:0;top:0;bottom:0;width:55%;overflow:hidden;
-}
-.nb-ember{
-    position:absolute;bottom:14%;border-radius:50%;
-    background:radial-gradient(circle at 50% 40%,#ffe2b4,#ff7a1a 70%);
-    box-shadow:0 0 10px 2px rgba(255,138,42,.7);
-    opacity:0;
-    animation:nbEmber linear infinite;
-}
-@keyframes nbEmber{
-    0%{transform:translate(0,0) scale(.5);opacity:0;}
-    12%{opacity:.95;}
-    78%{opacity:.7;}
-    100%{transform:translate(var(--dx,14px),-280px) scale(1.1);opacity:0;}
 }
 @media(max-width:900px){
     .nb-orb-copy{max-width:none;}
     .nb-paint{right:-22%;top:88%;width:min(420px,80vw);opacity:.7;}
-    .nb-embers{display:none;}
 }
 
 /* =========================
@@ -3861,7 +3835,7 @@ body.kvyyk-body{
 .nb-marq-seq{
     display:flex;align-items:center;gap:.4em;flex:none;padding-right:.4em;
     font-family:'Manrope',sans-serif;font-weight:800;
-    font-size:clamp(38px,6.6vw,100px);line-height:1.05;letter-spacing:-2px;
+    font-size:clamp(54px,9.5vw,150px);line-height:1.04;letter-spacing:-3px;
     white-space:nowrap;color:#fff;
 }
 .nb-marq-star{width:.46em;height:.46em;flex:none;fill:#ff7a1a;}
@@ -3869,6 +3843,44 @@ body.kvyyk-body{
     color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.38);
 }
 @keyframes nbMarq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* =========================
+   PERF — drop expensive backdrop-filter everywhere except the
+   fixed nav. Blur of a scrolling backdrop is recomputed every
+   frame; on many elements it kills scroll FPS. Glass look stays
+   via the translucent gradients/borders already on these.
+========================= */
+.nb-tech,
+.nb-team-card,
+.nb-kpi-grid,
+.nb-arch-item,
+.nb-res-card,
+.nb-sum-card,
+.nb-glass,
+.nb-cta-btn.primary,
+.nb-cta-btn.ghost,
+.nb-orb-node,
+.home .nb-dark,
+.nb-foot-panel,
+.nb-composer,
+.nb-bubble-bot,
+.nb-chat-pill,
+.nb-dark-badge,
+.nb-page-back,
+.nb-create-bubble,
+.nb-fab,
+.nb-feat-pill,
+.nb-insights-tag,
+.nb-passport,
+.nb-showcase-eyebrow,
+.nb-tl-btn,
+.nb-tl-details,
+.navbar,
+.liquid,
+.liquid-light{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+}
 
 /* =========================
    A11Y — KEYBOARD FOCUS
