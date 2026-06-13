@@ -3495,6 +3495,50 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
 }
 
 /* =========================
+   KVYIK BRAND — kvy[ɪk]
+   monospace wordmark, orange phonetic brackets
+========================= */
+.kvy-logo{
+    font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing:-1px;
+}
+.kvy-br{
+    color:#ff7a1a;
+    font-weight:700;
+}
+.nb-brand{text-decoration:none;font-size:1.05rem;}
+/* nav sits over the bright hero — keep brackets legible on any bg */
+.nb-brand .kvy-br{
+    color:#ff8a2a;
+    text-shadow:0 1px 3px rgba(20,8,0,.55);
+}
+
+/* dictionary-style line under the hero subtitle */
+.nb-dict{
+    font-family:'JetBrains Mono', ui-monospace, Menlo, monospace;
+    font-size:.8rem;
+    line-height:1.5;
+    color:rgba(26,10,0,.72);
+    max-width:400px;
+    margin-top:16px;
+    letter-spacing:-.2px;
+    opacity:0;
+    animation:nbFadeUp 1s .55s ease forwards;
+}
+.nb-dict .nb-ipa{color:#7a2e06;font-weight:700;}
+.nb-dict i{font-style:italic;opacity:.7;}
+
+/* giant hero watermark: dark brackets on the bright orange hero */
+.nb-bg-brand.kvy-logo{letter-spacing:-6px;}
+.nb-bg-brand .kvy-br{color:rgba(26,10,0,.20);}
+
+/* hero meta-mark accent line */
+.nb-meta-mark.kvy-logo span:last-child{color:#7a2e06;}
+
+/* source chips as [bracketed] file refs */
+.nb-source-chip.kvy-logo{padding:3px 9px;font-size:9px;letter-spacing:0;}
+
+/* =========================
    A11Y — KEYBOARD FOCUS
    visible focus ring for keyboard users only
    (mouse clicks stay clean via :focus-visible)
