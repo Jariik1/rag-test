@@ -270,7 +270,7 @@ const revealElements =
     document.querySelectorAll(
         ".nb-glass, .nb-team-card, .nb-tech, .nb-res-card, .nb-sum-card, .nb-kpi, .nb-arch-item, .nb-pp-row, " +
         ".nb-sec-head, .nb-num-row, .nb-dark-badge, .nb-dark-title, .nb-dark-sub, .nb-pipe, " +
-        ".nb-marq-lead, .nb-marq, .nb-showcase-head, .nb-cc-card, .nb-cta h2, .nb-cta-row, .nb-foot, " +
+        ".nb-marq-lead, .nb-marq, .nb-showcase-head, .nb-cta h2, .nb-cta-row, .nb-foot, " +
         ".nb-quad-intro, .nb-quad-cell, .nb-quad-stat, .nb-check-col, " +
         ".nb-arch-arrow, .nb-back-btn, .nb-sc-stat-card"
     );
@@ -523,12 +523,33 @@ if(themeToggle){
 document.querySelectorAll(".nb-carousel").forEach(function(car){
     const track = car.querySelector(".nb-carousel-track");
     if(!track) return;
-    const card = track.querySelector(".nb-cc-card");
-    const step = function(){ return card ? card.offsetWidth + 22 : 380; };
+    const cards = Array.prototype.slice.call(track.querySelectorAll(".nb-cc-card"));
+    const first = cards[0];
+    const step = function(){ return first ? first.offsetWidth + 30 : 390; };
     const prev = car.querySelector(".nb-cc-prev");
     const next = car.querySelector(".nb-cc-next");
     if(prev) prev.addEventListener("click", function(){ track.scrollBy({left:-step(), behavior:"smooth"}); });
     if(next) next.addEventListener("click", function(){ track.scrollBy({left:step(), behavior:"smooth"}); });
+
+    // mark the most-centred card as in focus
+    function updateFocus(){
+        const tr = track.getBoundingClientRect();
+        const mid = tr.left + tr.width / 2;
+        let best = null, bestDist = Infinity;
+        cards.forEach(function(c){
+            const r = c.getBoundingClientRect();
+            const d = Math.abs((r.left + r.width / 2) - mid);
+            if(d < bestDist){ bestDist = d; best = c; }
+        });
+        cards.forEach(function(c){ c.classList.toggle("is-focus", c === best); });
+    }
+    let tk = false;
+    track.addEventListener("scroll", function(){
+        if(!tk){ requestAnimationFrame(function(){ updateFocus(); tk = false; }); tk = true; }
+    }, {passive:true});
+    window.addEventListener("resize", updateFocus);
+    // center the first card initially, then set focus
+    requestAnimationFrame(updateFocus);
 });
 
 /* =========================
