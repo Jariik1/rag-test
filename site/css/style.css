@@ -3922,6 +3922,9 @@ body.kvyyk-body{
     scroll-behavior:smooth;
     padding:6px 2px 22px;
     scrollbar-width:none;
+    /* soft fade so edge cards dissolve instead of hard-clipping */
+    -webkit-mask:linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+    mask:linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
 }
 .nb-carousel-track::-webkit-scrollbar{display:none;}
 .nb-cc-card{
@@ -3943,16 +3946,18 @@ body.kvyyk-body{
 .nb-cc-skills{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px;}
 .nb-cc-skills span{font-size:.74rem;color:#ffb377;background:rgba(255,122,26,.1);border:1px solid rgba(255,122,26,.3);border-radius:999px;padding:5px 12px;}
 .nb-cc-btn{
-    position:absolute;top:130px;z-index:5;
+    position:absolute;top:152px;z-index:5;
     width:48px;height:48px;border-radius:50%;
-    background:rgba(20,14,10,.75);border:1px solid rgba(255,255,255,.18);
+    background:rgba(20,14,10,.8);border:1px solid rgba(255,255,255,.18);
     color:#fff;font-size:1.2rem;cursor:pointer;
     display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.4);
     transition:background .2s ease, transform .2s ease;
 }
-.nb-cc-btn:hover{background:#ff5400;border-color:transparent;transform:scale(1.08);}
-.nb-cc-prev{left:-8px;}
-.nb-cc-next{right:-8px;}
+.nb-cc-btn:hover{background:#ff5400;border-color:transparent;transform:scale(1.1);}
+/* arrows pulled out beyond the carousel edges */
+.nb-cc-prev{left:-52px;}
+.nb-cc-next{right:-52px;}
 @media(max-width:760px){
     .nb-cc-card{flex-basis:80vw;}
     .nb-cc-btn{display:none;}
