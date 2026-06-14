@@ -1,18 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="kvyik">
-  <defs>
-    <linearGradient id="o" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffb347"/>
-      <stop offset="1" stop-color="#ff5400"/>
-    </linearGradient>
-  </defs>
   <rect width="64" height="64" rx="15" fill="#1a120c"/>
-  <!-- narrow square brackets, like the logo -->
-  <g fill="none" stroke="url(#o)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 16 H15 V48 H21"/>
-    <path d="M43 16 H49 V48 H43"/>
+  <!-- narrow square brackets, single solid color -->
+  <g fill="none" stroke="#ff7a1a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 16 H11 V48 H18"/>
+    <path d="M46 16 H53 V48 H46"/>
   </g>
-  <!-- letters inside, light like the logo -->
-  <text x="32" y="44" text-anchor="middle"
+  <!-- letters inside, light, with breathing room from the brackets -->
+  <text x="32" y="43" text-anchor="middle"
         font-family="'JetBrains Mono','SF Mono',ui-monospace,monospace"
-        font-size="26" font-weight="700" fill="#ffffff" letter-spacing="-1">ik</text>
+        font-size="23" font-weight="700" fill="#ffffff" letter-spacing="0.5">kk</text>
 </svg>
