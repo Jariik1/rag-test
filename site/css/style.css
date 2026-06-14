@@ -2784,17 +2784,22 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     margin:0 auto;
     padding-left:160px;
 }
+/* line draws top→bottom when the timeline enters view */
 .nb-timeline::before{
     content:"";
     position:absolute;
     left:140px;top:8px;bottom:8px;
     width:2px;
     background:linear-gradient(180deg,#ff5400,#ff7a1a,rgba(255,122,26,.1));
+    transform:scaleY(0);transform-origin:top;
+    transition:transform 1.4s cubic-bezier(.4,0,.2,1);
 }
+.nb-timeline.drawn::before{transform:scaleY(1);}
 .nb-tl-item{
     position:relative;
     margin-bottom:30px;
 }
+/* dot — appears after the line reaches it */
 .nb-tl-item::before{
     content:"";
     position:absolute;
@@ -2803,16 +2808,31 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     border-radius:50%;
     background:#ff5400;
     box-shadow:0 0 0 4px rgba(255,84,0,.18);
+    opacity:0;transform:scale(0);
+    transition:opacity .4s ease, transform .5s cubic-bezier(.34,1.56,.64,1);
     animation:nbTlDot 2.4s ease-in-out infinite;
 }
+/* content — appears just after the dot */
+.nb-tl-item > *{
+    opacity:0;transform:translateX(18px);
+    transition:opacity .55s ease, transform .55s cubic-bezier(.2,.8,.2,1);
+}
+.nb-timeline.drawn .nb-tl-item::before{opacity:1;transform:scale(1);}
+.nb-timeline.drawn .nb-tl-item > *{opacity:1;transform:none;}
+.nb-timeline.drawn .nb-tl-item:nth-child(1)::before{transition-delay:.30s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(1) > *{transition-delay:.45s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(2)::before{transition-delay:.75s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(2) > *{transition-delay:.90s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(3)::before{transition-delay:1.20s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(3) > *{transition-delay:1.35s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(4)::before{transition-delay:1.65s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(4) > *{transition-delay:1.80s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(5)::before{transition-delay:2.10s;}
+.nb-timeline.drawn .nb-tl-item:nth-child(5) > *{transition-delay:2.25s;}
 @keyframes nbTlDot{
     0%,100%{box-shadow:0 0 0 4px rgba(255,84,0,.18);}
     50%{box-shadow:0 0 0 10px rgba(255,84,0,0);}
 }
-.nb-tl-item:nth-child(2)::before{animation-delay:.4s;}
-.nb-tl-item:nth-child(3)::before{animation-delay:.8s;}
-.nb-tl-item:nth-child(4)::before{animation-delay:1.2s;}
-.nb-tl-item:nth-child(5)::before{animation-delay:1.6s;}
 .nb-tl-date{
     position:absolute;
     left:-160px;top:22px;

@@ -268,10 +268,11 @@ const revealObserver =
 
 const revealElements =
     document.querySelectorAll(
-        ".nb-glass, .nb-team-card, .nb-tech, .nb-res-card, .nb-sum-card, .nb-kpi, .nb-arch-item, .nb-tl-item, .nb-pp-row, " +
+        ".nb-glass, .nb-team-card, .nb-tech, .nb-res-card, .nb-sum-card, .nb-kpi, .nb-arch-item, .nb-pp-row, " +
         ".nb-sec-head, .nb-num-row, .nb-dark-badge, .nb-dark-title, .nb-dark-sub, .nb-pipe, " +
         ".nb-marq-lead, .nb-marq, .nb-showcase-head, .nb-cc-card, .nb-cta h2, .nb-cta-row, .nb-foot, " +
-        ".nb-quad-intro, .nb-quad-cell, .nb-quad-stat, .nb-check-col"
+        ".nb-quad-intro, .nb-quad-cell, .nb-quad-stat, .nb-check-col, " +
+        ".nb-arch-arrow, .nb-back-btn, .nb-sc-stat-card"
     );
 
 revealElements.forEach(el => {
@@ -529,3 +530,17 @@ document.querySelectorAll(".nb-carousel").forEach(function(car){
     if(prev) prev.addEventListener("click", function(){ track.scrollBy({left:-step(), behavior:"smooth"}); });
     if(next) next.addEventListener("click", function(){ track.scrollBy({left:step(), behavior:"smooth"}); });
 });
+
+/* =========================
+   JOURNAL TIMELINE — sequential draw
+========================= */
+(function(){
+  const tl = document.querySelector(".nb-timeline");
+  if(!tl) return;
+  const obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add("drawn"); obs.unobserve(e.target); }
+    });
+  }, {threshold:0.2});
+  obs.observe(tl);
+})();
