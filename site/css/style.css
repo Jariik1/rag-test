@@ -2252,20 +2252,22 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
 .resource-link{display:inline-block;margin-top:15px;color:#ff7a1a;text-decoration:none;font-weight:600;}
 .hidden{
     opacity:0;
-    transform:translateY(40px);
-    transition:opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1), filter .9s ease;
-    filter:blur(4px);
+    transform:translateY(85px) scale(.94);
+    transition:opacity 1s cubic-bezier(.16,.84,.3,1),
+               transform 1.1s cubic-bezier(.16,.84,.3,1),
+               filter 1s ease;
+    filter:blur(9px);
 }
 .show{
     opacity:1;
-    transform:translateY(0);
+    transform:translateY(0) scale(1);
     filter:blur(0);
 }
-.nb-tech:nth-child(2).hidden,.nb-team-card:nth-child(2).hidden,.nb-res-card:nth-child(2).hidden,.nb-sum-card:nth-child(2).hidden,.nb-arch-item:nth-child(2).hidden{transition-delay:.08s;}
-.nb-tech:nth-child(3).hidden,.nb-team-card:nth-child(3).hidden,.nb-res-card:nth-child(3).hidden,.nb-sum-card:nth-child(3).hidden{transition-delay:.16s;}
-.nb-tech:nth-child(4).hidden,.nb-team-card:nth-child(4).hidden,.nb-res-card:nth-child(4).hidden{transition-delay:.24s;}
-.nb-tech:nth-child(5).hidden,.nb-team-card:nth-child(5).hidden,.nb-res-card:nth-child(5).hidden{transition-delay:.32s;}
-.nb-tech:nth-child(6).hidden,.nb-res-card:nth-child(6).hidden{transition-delay:.4s;}
+.nb-tech:nth-child(2).hidden,.nb-team-card:nth-child(2).hidden,.nb-res-card:nth-child(2).hidden,.nb-sum-card:nth-child(2).hidden,.nb-arch-item:nth-child(2).hidden{transition-delay:.12s;}
+.nb-tech:nth-child(3).hidden,.nb-team-card:nth-child(3).hidden,.nb-res-card:nth-child(3).hidden,.nb-sum-card:nth-child(3).hidden{transition-delay:.26s;}
+.nb-tech:nth-child(4).hidden,.nb-team-card:nth-child(4).hidden,.nb-res-card:nth-child(4).hidden{transition-delay:.40s;}
+.nb-tech:nth-child(5).hidden,.nb-team-card:nth-child(5).hidden,.nb-res-card:nth-child(5).hidden{transition-delay:.54s;}
+.nb-tech:nth-child(6).hidden,.nb-res-card:nth-child(6).hidden{transition-delay:.68s;}
 
 /* ============================================
    SUBPAGES — page-hero, content, components
