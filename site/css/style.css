@@ -662,11 +662,14 @@ body{
 }
 .nb-chat .nb-chat-pill{
     opacity:0;
-    animation:nbMsgIn .55s 1s ease forwards;
+    animation:nbMsgIn .55s ease forwards;
 }
-.nb-chat .nb-msg:nth-of-type(2){animation-delay:1.4s;}
-.nb-chat .nb-msg:nth-of-type(3){animation-delay:2.4s;}
-.nb-chat .nb-msg:nth-of-type(4){animation-delay:3.4s;}
+/* sequential appearance (date-pill counts as the 1st div, messages are 2..5) */
+.nb-chat .nb-msg{animation-delay:.5s;}
+.nb-chat .nb-msg:nth-of-type(2){animation-delay:.5s;}
+.nb-chat .nb-msg:nth-of-type(3){animation-delay:1.6s;}
+.nb-chat .nb-msg:nth-of-type(4){animation-delay:2.8s;}
+.nb-chat .nb-msg:nth-of-type(5){animation-delay:3.8s;}
 @keyframes nbMsgIn{
     0%{opacity:0;transform:translateY(12px) scale(.96);}
     100%{opacity:1;transform:translateY(0) scale(1);}
@@ -3175,11 +3178,16 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     font-weight:500;
 }
 .nb-mobile-mockup{
-    max-width:900px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+    gap:36px;
+    max-width:1240px;
     margin:0 auto;
-    padding:60px 24px;
-    text-align:center;
+    padding:40px 0 20px;
 }
+.nb-mobile-mockup .nb-phone-wrap{width:auto;}
 .nb-mobile-mockup img{
     max-width:100%;
     border-radius:24px;
