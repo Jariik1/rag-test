@@ -1,0 +1,11 @@
+# local notes / memory — not committed
+PROJECT_MEMORY.md
+
+# OS / editor
+.DS_Store
+**/.DS_Store
+.idea/
+
+# local tooling
+.claude/
+skills/
