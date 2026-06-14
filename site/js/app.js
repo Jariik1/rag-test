@@ -270,7 +270,8 @@ const revealElements =
     document.querySelectorAll(
         ".nb-glass, .nb-team-card, .nb-tech, .nb-res-card, .nb-sum-card, .nb-kpi, .nb-arch-item, .nb-tl-item, .nb-pp-row, " +
         ".nb-sec-head, .nb-num-row, .nb-dark-badge, .nb-dark-title, .nb-dark-sub, .nb-pipe, " +
-        ".nb-marq-lead, .nb-marq, .nb-showcase-head, .nb-cc-card, .nb-cta h2, .nb-cta-row, .nb-foot"
+        ".nb-marq-lead, .nb-marq, .nb-showcase-head, .nb-cc-card, .nb-cta h2, .nb-cta-row, .nb-foot, " +
+        ".nb-quad-intro, .nb-quad-cell, .nb-quad-stat"
     );
 
 revealElements.forEach(el => {

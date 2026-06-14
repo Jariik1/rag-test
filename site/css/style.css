@@ -3959,6 +3959,67 @@ body.kvyyk-body{
 }
 
 /* =========================
+   PROBLEM — 2×2 quadrant grid
+========================= */
+.nb-quad-intro{
+    max-width:700px;margin:6px 0 0;
+    font-size:1.15rem;line-height:1.6;color:rgba(255,255,255,.7);
+}
+.nb-quad-intro b{color:#ff9a3a;}
+.nb-quad-intro .kvy-br{color:#ff7a1a;font-weight:700;}
+.nb-quad{
+    position:relative;margin-top:32px;
+    display:grid;grid-template-columns:1fr 1fr;
+    border:1px solid rgba(255,255,255,.08);border-radius:24px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0));
+}
+.nb-quad-cell{
+    position:relative;overflow:hidden;
+    min-height:300px;padding:54px 56px;
+    display:flex;flex-direction:column;gap:12px;
+    align-items:center;text-align:center;
+}
+.nb-quad-cell:nth-child(1),.nb-quad-cell:nth-child(2){border-bottom:1px solid rgba(255,255,255,.08);justify-content:flex-end;padding-bottom:86px;}
+.nb-quad-cell:nth-child(3),.nb-quad-cell:nth-child(4){justify-content:flex-start;padding-top:86px;}
+.nb-quad-cell:nth-child(1),.nb-quad-cell:nth-child(3){border-right:1px solid rgba(255,255,255,.08);}
+.nb-quad-cell::before{
+    content:"";position:absolute;width:340px;height:340px;
+    background:radial-gradient(circle,rgba(255,122,26,.16),transparent 62%);
+    filter:blur(22px);pointer-events:none;
+}
+.nb-quad-cell:nth-child(1)::before{top:-90px;left:-90px;}
+.nb-quad-cell:nth-child(2)::before{top:-90px;right:-90px;}
+.nb-quad-cell:nth-child(3)::before{bottom:-90px;left:-90px;}
+.nb-quad-cell:nth-child(4)::before{bottom:-90px;right:-90px;}
+.nb-quad-num{position:relative;z-index:1;font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;color:#ff9a3a;font-size:.78rem;letter-spacing:.14em;}
+.nb-quad-cell h3{position:relative;z-index:1;font-family:'Manrope',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:-.5px;color:#fff;}
+.nb-quad-cell p{position:relative;z-index:1;color:rgba(255,255,255,.55);line-height:1.6;font-size:.95rem;max-width:340px;}
+.nb-quad-core{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;
+    width:128px;height:128px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 40%,#2a1a10,#1a110b 72%);
+    border:1px solid rgba(255,138,42,.35);
+    box-shadow:0 0 60px rgba(255,122,26,.45), inset 0 1px 0 rgba(255,200,120,.18);
+    animation:nbQuadCore 5s ease-in-out infinite;
+}
+@keyframes nbQuadCore{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.07);}}
+.nb-quad-core .kvy-logo{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-weight:700;font-size:1.05rem;color:#fff;letter-spacing:-.5px;}
+.nb-quad-core .kvy-br{color:#ff7a1a;}
+.nb-quad-stat{
+    margin-top:28px;display:flex;flex-direction:column;gap:6px;
+    border-left:3px solid #ff5400;padding:6px 0 6px 22px;
+}
+.nb-quad-stat-big{font-family:'Manrope',sans-serif;font-weight:800;font-size:clamp(28px,3.6vw,48px);color:#fff;letter-spacing:-1px;}
+.nb-quad-stat-cap{color:rgba(255,255,255,.55);font-size:.95rem;max-width:520px;}
+@media(max-width:760px){
+    .nb-quad{grid-template-columns:1fr;}
+    .nb-quad-cell{min-height:auto;padding:38px 26px!important;justify-content:center!important;border-right:none!important;}
+    .nb-quad-cell:nth-child(1),.nb-quad-cell:nth-child(2),.nb-quad-cell:nth-child(3){border-bottom:1px solid rgba(255,255,255,.08);}
+    .nb-quad-core{display:none;}
+}
+
+/* =========================
    A11Y — KEYBOARD FOCUS
    visible focus ring for keyboard users only
    (mouse clicks stay clean via :focus-visible)
