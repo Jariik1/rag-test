@@ -4385,9 +4385,9 @@ select:focus-visible{
 .nb-core-glow{
     position:absolute;
     left:50%;
-    top:50%;                       /* sits behind the CTA, spills up & down */
-    width:125vw;
-    height:1180px;
+    top:35%;                       /* centred right behind the CTA block */
+    width:155vw;
+    height:1550px;
     transform:translate(-50%,-50%);
     /* tighter, brighter core + steeper falloff = a defined sun, not a soft wash */
     background:
