@@ -590,10 +590,57 @@ window.addEventListener("scroll", () => {
 });
 
 /* =========================
+   MOBILE NAV MENU
+========================= */
+(function(){
+    const menuButton =
+        document.querySelector(".nb-menu-toggle");
+    const menu =
+        document.querySelector(".nb-mobile-menu");
+
+    if(!menuButton || !menu) return;
+
+    function setOpen(open){
+        menu.classList.toggle("open", open);
+        menuButton.classList.toggle("open", open);
+        menuButton.setAttribute("aria-expanded", open ? "true" : "false");
+        menu.setAttribute("aria-hidden", open ? "false" : "true");
+    }
+
+    menuButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        setOpen(!menu.classList.contains("open"));
+    });
+
+    menu.addEventListener("click", (event) => {
+        if(event.target.closest("a")){
+            setOpen(false);
+        }
+    });
+
+    document.addEventListener("click", (event) => {
+        if(
+            !menu.classList.contains("open") ||
+            menu.contains(event.target) ||
+            menuButton.contains(event.target)
+        ){
+            return;
+        }
+        setOpen(false);
+    });
+
+    window.addEventListener("resize", () => {
+        if(window.innerWidth > 1000){
+            setOpen(false);
+        }
+    });
+})();
+
+/* =========================
    MAGNETIC HOVER on FABs
 ========================= */
 const magnets =
-    document.querySelectorAll(".nb-fab, .nb-cta-btn, .nb-back-btn, .nb-mob-btn, .nw-prev, .nw-next");
+    document.querySelectorAll(".nb-fab, .nb-cta-btn, .nb-back-btn, .nb-mob-btn, .nb-mobile-menu a, .nw-prev, .nw-next");
 
 magnets.forEach(el => {
     el.addEventListener("mousemove", (e) => {
@@ -901,12 +948,14 @@ document.querySelectorAll("[data-news-slider]").forEach(function(root){
     const core = zone.querySelector(".nb-core");
     if(!core) return;
 
-    // hover the primary CTA ("Подробнее") -> the core ignites brighter & grows
+    // hover CTA buttons -> the core ignites brighter & grows
     const lit = zone.querySelector(".nb-core-scale");
-    const ctaBtn = zone.querySelector(".nb-cta .nb-cta-btn.primary");
-    if(lit && ctaBtn){
-        ctaBtn.addEventListener("mouseenter", function(){ lit.classList.add("is-lit"); });
-        ctaBtn.addEventListener("mouseleave", function(){ lit.classList.remove("is-lit"); });
+    const ctaButtons = zone.querySelectorAll(".nb-cta .nb-cta-btn.primary, .nb-cta .nb-cta-btn.core-trigger");
+    if(lit && ctaButtons.length){
+        ctaButtons.forEach(function(btn){
+            btn.addEventListener("mouseenter", function(){ lit.classList.add("is-lit"); });
+            btn.addEventListener("mouseleave", function(){ lit.classList.remove("is-lit"); });
+        });
     }
 
     if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;

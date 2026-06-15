@@ -275,6 +275,7 @@ body{
     position:relative;
     color:#fff;
     text-decoration:none;
+    font-family:inherit;
     padding:10px 20px;
     border-radius:999px;
     font-weight:700;
@@ -284,6 +285,8 @@ body{
     /* glass surface (sits on the already-blurred navbar) */
     background:linear-gradient(180deg, rgba(255,255,255,.24) 0%, rgba(255,255,255,.07) 100%);
     border:1px solid rgba(255,255,255,.4);
+    appearance:none;
+    -webkit-appearance:none;
     text-shadow:0 1px 2px rgba(20,8,0,.35);
     box-shadow:
         inset 0 1px 0 rgba(255,255,255,.6),     /* top highlight → volume */
@@ -291,6 +294,16 @@ body{
         0 9px 22px rgba(255,138,42,.42),         /* soft glow underneath */
         0 3px 8px rgba(0,0,0,.25);
     transition:transform .25s ease, box-shadow .3s ease, background .3s ease;
+    cursor:pointer;
+}
+.nb-menu-toggle{display:none;}
+.nb-menu-toggle.open{
+    background:linear-gradient(180deg, rgba(255,138,42,.42), rgba(255,255,255,.12));
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.68),
+        inset 0 -2px 5px rgba(0,0,0,.16),
+        0 16px 38px rgba(255,100,24,.58),
+        0 5px 12px rgba(0,0,0,.3);
 }
 .nb-mob-btn:hover{
     transform:translateY(-2px) scale(1.05);
@@ -301,6 +314,79 @@ body{
         0 14px 32px rgba(255,138,42,.6),
         0 5px 12px rgba(0,0,0,.3);
 }
+.nb-mobile-menu{
+    position:absolute;
+    top:calc(100% - 18px);
+    right:40px;
+    width:min(360px, calc(100vw - 32px));
+    padding:14px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:6px;
+    border-radius:26px;
+    background:
+        linear-gradient(180deg,
+            rgba(22,22,22,.72),
+            rgba(10,10,10,.58));
+    backdrop-filter:blur(24px) saturate(165%) brightness(1.08);
+    -webkit-backdrop-filter:blur(24px) saturate(165%) brightness(1.08);
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.22),
+        inset 0 -1px 0 rgba(0,0,0,.2),
+        0 28px 70px rgba(0,0,0,.5),
+        0 12px 38px rgba(255,90,20,.16);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-10px) scale(.98);
+    transform-origin:90% 0;
+    pointer-events:none;
+    transition:opacity .24s ease,
+               visibility .24s ease,
+               transform .34s cubic-bezier(.2,.8,.2,1);
+}
+.nb-mobile-menu.open{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0) scale(1);
+    pointer-events:all;
+}
+.nb-mobile-menu a{
+    color:rgba(255,255,255,.82);
+    text-decoration:none;
+    padding:13px 16px;
+    border-radius:18px;
+    font-weight:700;
+    font-size:.95rem;
+    position:relative;
+    overflow:hidden;
+    isolation:isolate;
+    transition:color .24s ease,
+               transform .24s ease,
+               background .24s ease,
+               box-shadow .24s ease;
+}
+.nb-mobile-menu a::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:inherit;
+    background:linear-gradient(135deg,
+        rgba(255,122,26,.22),
+        rgba(255,255,255,.08));
+    border:1px solid rgba(255,170,80,.24);
+    opacity:0;
+    transition:opacity .24s ease;
+    z-index:-1;
+}
+.nb-mobile-menu a:hover,
+.nb-mobile-menu a.active-link{
+    color:#fff;
+    transform:translateX(4px);
+    box-shadow:0 10px 28px rgba(255,90,20,.16);
+}
+.nb-mobile-menu a:hover::before,
+.nb-mobile-menu a.active-link::before{opacity:1;}
 
 /* =========================
    HERO — orange/amber gradient
@@ -2112,6 +2198,8 @@ body{
 /* primary CTA keeps a soft glow at rest, blooms on hover */
 .nb-cta-btn.primary::before{opacity:.55;}
 .nb-cta-btn.primary:hover::before{opacity:1;}
+.nb-cta-btn.core-trigger::before{opacity:.38;}
+.nb-cta-btn.core-trigger:hover::before{opacity:1;}
 
 .nb-cta-btn.primary{
     background:
@@ -3297,6 +3385,10 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     .nb-footer{padding:50px 24px 28px;}
     .nb-nav{padding:10px 16px;}
     .nb-links{display:none;}
+    .nb-nav-inner{padding:14px 18px;min-height:62px;gap:14px;}
+    .nb-mob-link{display:none;}
+    .nb-menu-toggle{display:inline-flex;align-items:center;justify-content:center;}
+    .nb-mobile-menu{right:16px;top:calc(100% - 6px);}
     .nb-bg-brand{font-size:120px;letter-spacing:-4px;}
 
     .nb-page-hero{padding:130px 24px 60px;}
