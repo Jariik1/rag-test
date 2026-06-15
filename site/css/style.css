@@ -4358,11 +4358,12 @@ select:focus-visible{
    GRADIENT CORE — home bottom (marquee → CTA → footer)
    one breathing radial "sun" behind the zone, with subtle parallax.
 ========================= */
-.nb-core-zone{position:relative;}
+/* overflow:clip keeps the glow + its parallax shift from extending the
+   document scroll height beyond the real end of the page */
+.nb-core-zone{position:relative;overflow:clip;}
 .nb-core-zone > section,
 .nb-core-zone > footer{position:relative;z-index:1;}
-/* extra room top & bottom so the parallax shift never exposes an edge */
-.nb-core{position:absolute;left:0;right:0;top:-170px;height:calc(100% + 340px);z-index:0;pointer-events:none;overflow:hidden;will-change:transform;}
+.nb-core{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;will-change:transform;}
 .nb-core-glow{
     position:absolute;
     left:50%;
