@@ -272,7 +272,8 @@ const revealElements =
         ".nb-sec-head, .nb-num-row, .nb-dark-badge, .nb-dark-title, .nb-dark-sub, .nb-pipe, " +
         ".nb-marq-lead, .nb-marq, .nb-showcase-head, .nb-cta h2, .nb-cta-row, .nb-foot, " +
         ".nb-quad-intro, .nb-quad-cell, .nb-quad-stat, .nb-check-col, " +
-        ".nb-arch-arrow, .nb-back-btn, .nb-sc-stat-card"
+        ".nb-arch-arrow, .nb-back-btn, .nb-sc-stat-card, " +
+        ".section--runline, .nw-slider"
     );
 
 revealElements.forEach(el => {
@@ -411,7 +412,7 @@ window.addEventListener("scroll", () => {
    MAGNETIC HOVER on FABs
 ========================= */
 const magnets =
-    document.querySelectorAll(".nb-fab, .nb-cta-btn, .nb-back-btn, .nb-mob-btn");
+    document.querySelectorAll(".nb-fab, .nb-cta-btn, .nb-back-btn, .nb-mob-btn, .nw-prev, .nw-next");
 
 magnets.forEach(el => {
     el.addEventListener("mousemove", (e) => {
@@ -550,6 +551,164 @@ document.querySelectorAll(".nb-carousel").forEach(function(car){
     window.addEventListener("resize", updateFocus);
     // center the first card initially, then set focus
     requestAnimationFrame(updateFocus);
+});
+
+/* =========================
+   RUNNING-LINE MARQUEE — JS driven
+   • smooth speed easing on hover (no jump, position kept)
+   • each word/phrase scales up on hover
+   • words fill white as they near the screen centre (empty -> white)
+   shared by the journal news runline and the home-page marquees.
+========================= */
+function nbInitMarquee(sec, track, group, words, normal, slow, dir){
+    if(!sec || !track || !group) return;
+
+    function paintWords(){
+        const cx = window.innerWidth / 2;
+        const range = window.innerWidth * 0.22;      // narrow band = quick ignition
+        words.forEach(function(w){
+            const r = w.getBoundingClientRect();
+            let t = 1 - Math.abs((r.left + r.width / 2) - cx) / range;
+            t = t < 0 ? 0 : (t > 1 ? 1 : t);
+            t = t * t * (3 - 2 * t);                 // smoothstep
+            w.style.color = "rgba(255,255,255," + t + ")";
+            w.style.webkitTextStrokeColor = "rgba(243,231,216," + (0.5 * (1 - t)) + ")";
+        });
+    }
+
+    if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+        paintWords();   // static fill, no marquee
+        return;
+    }
+
+    let target = normal, speed = normal;
+    let x = 0;
+    let groupW = group.offsetWidth;
+    let last = performance.now();
+    let running = false, raf = null;
+
+    const remeasure = function(){ groupW = group.offsetWidth; };
+    window.addEventListener("resize", remeasure);
+    window.addEventListener("load", remeasure);
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(remeasure); }
+
+    sec.addEventListener("mouseenter", function(){ target = slow; });
+    sec.addEventListener("mouseleave", function(){ target = normal; });
+
+    function frame(now){
+        const dt = Math.min((now - last) / 1000, 0.05);
+        last = now;
+        // ease speed toward target — no jump, current position is kept
+        speed += (target - speed) * Math.min(dt * 5, 1);
+        x -= speed * dt * dir;
+        if(groupW > 0){
+            while(x <= -groupW){ x += groupW; }
+            while(x > 0){ x -= groupW; }
+        }
+        track.style.transform = "translateX(" + x + "px)";
+        paintWords();
+        if(running) raf = requestAnimationFrame(frame);
+    }
+
+    // run only while on screen (no work when scrolled away)
+    new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting && !running){
+                running = true; last = performance.now(); raf = requestAnimationFrame(frame);
+            }else if(!e.isIntersecting && running){
+                running = false; if(raf) cancelAnimationFrame(raf);
+            }
+        });
+    }, {threshold:0}).observe(sec);
+}
+
+// journal news runline
+document.querySelectorAll(".section--runline").forEach(function(sec){
+    nbInitMarquee(
+        sec,
+        sec.querySelector(".nw-runline-track"),
+        sec.querySelector(".nw-runline-group"),
+        Array.prototype.slice.call(sec.querySelectorAll(".nw-run-txt")),
+        58, 12, 1
+    );
+});
+
+// home-page marquees (forward + reverse rows)
+document.querySelectorAll(".nb-marq").forEach(function(sec){
+    const track = sec.querySelector(".nb-marq-track");
+    nbInitMarquee(
+        sec,
+        track,
+        sec.querySelector(".nb-marq-seq"),
+        Array.prototype.slice.call(sec.querySelectorAll(".nb-marq-seq > span")),
+        75, 16,
+        (track && track.classList.contains("nb-marq-track--rev")) ? -1 : 1
+    );
+});
+
+/* =========================
+   NEWS SLIDER (#Using) — one slide at a time
+========================= */
+document.querySelectorAll("[data-news-slider]").forEach(function(root){
+    const track = root.querySelector(".nw-track");
+    const slides = Array.prototype.slice.call(root.querySelectorAll(".nw-slide"));
+    if(!track || slides.length === 0) return;
+
+    const dotsWrap = root.querySelector(".nw-dots");
+    const prev = root.querySelector(".nw-prev");
+    const next = root.querySelector(".nw-next");
+    let idx = 0;
+
+    // build dots
+    const dots = slides.map(function(_, i){
+        const d = document.createElement("button");
+        d.type = "button";
+        d.className = "nw-dot" + (i === 0 ? " is-active" : "");
+        d.setAttribute("aria-label", "Новость " + (i + 1));
+        d.addEventListener("click", function(){ go(i); });
+        if(dotsWrap) dotsWrap.appendChild(d);
+        return d;
+    });
+
+    function go(i){
+        idx = (i + slides.length) % slides.length;
+        track.style.transform = "translateX(" + (-idx * 100) + "%)";
+        dots.forEach(function(d, k){ d.classList.toggle("is-active", k === idx); });
+    }
+
+    if(prev) prev.addEventListener("click", function(){ go(idx - 1); stop(); });
+    if(next) next.addEventListener("click", function(){ go(idx + 1); stop(); });
+
+    // drag / swipe
+    let down = false, startX = 0, moved = 0;
+    track.addEventListener("pointerdown", function(e){
+        down = true; startX = e.clientX; moved = 0;
+        track.style.transition = "none";
+    });
+    window.addEventListener("pointermove", function(e){
+        if(!down) return;
+        moved = e.clientX - startX;
+        const pct = (moved / root.offsetWidth) * 100;
+        track.style.transform = "translateX(" + (-idx * 100 + pct) + "%)";
+    });
+    window.addEventListener("pointerup", function(){
+        if(!down) return;
+        down = false;
+        track.style.transition = "";
+        if(Math.abs(moved) > root.offsetWidth * 0.12){
+            go(moved < 0 ? idx + 1 : idx - 1);
+        }else{ go(idx); }
+        if(moved !== 0) stop();
+    });
+
+    // autoplay (paused on hover / after interaction / reduced motion)
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let timer = null;
+    function play(){ if(reduce) return; stop(); timer = setInterval(function(){ go(idx + 1); }, 6500); }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", play);
+    play();
 });
 
 /* =========================

@@ -3887,20 +3887,29 @@ body.kvyyk-body{
 .nb-marq{
     display:block;position:relative;z-index:2;
     width:100vw;margin-left:calc(50% - 50vw);
-    overflow:hidden;text-decoration:none;padding:4px 0;
+    overflow:hidden;text-decoration:none;padding:16px 0;
     -webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
     mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
 }
 .nb-marq:first-of-type{margin-top:44px;}
-.nb-marq-track{display:flex;width:max-content;animation:nbMarq 34s linear infinite;}
-.nb-marq-track--rev{animation-direction:reverse;}
-.nb-marq:hover .nb-marq-track{animation-play-state:paused;}
+/* speed is driven in JS (smooth easing); direction via .nb-marq-track--rev */
+.nb-marq-track{display:flex;width:max-content;will-change:transform;}
 .nb-marq-seq{
     display:flex;align-items:center;gap:.4em;flex:none;padding-right:.4em;
     font-family:'Manrope',sans-serif;font-weight:800;
     font-size:clamp(54px,9.5vw,150px);line-height:1.04;letter-spacing:-3px;
-    white-space:nowrap;color:#fff;
+    white-space:nowrap;
 }
+/* each phrase: empty by default, JS fills it white near the screen centre */
+.nb-marq-seq > span{
+    display:inline-block;
+    color:transparent;
+    -webkit-text-stroke:1.5px rgba(243,231,216,.42);
+    transform-origin:center;
+    will-change:transform;
+    transition:transform .55s cubic-bezier(.34,1.56,.64,1);
+}
+.nb-marq-seq > span:hover{transform:scale(1.06);}
 .nb-marq-star{width:.46em;height:.46em;flex:none;fill:#ff7a1a;}
 .nb-marq--out .nb-marq-seq{
     color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.38);
@@ -4139,4 +4148,194 @@ select:focus-visible{
         transition-duration:.01ms !important;
         scroll-behavior:auto !important;
     }
+}
+
+/* =========================
+   NEWS — runline marquee + slider (#Using)
+   ref: cyboro.webflow.io (.section--runline / #Using.section--slider)
+========================= */
+
+/* ---- running line (marquee) ---- */
+.section--runline{
+    position:relative;
+    overflow:hidden;
+    padding:28px 0 12px;
+    background:transparent;
+}
+/* vertical padding leaves room so a scaled-up word isn't clipped top/bottom */
+.nw-runline{display:flex;width:100%;padding:18px 0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+/* speed is driven in JS (smooth easing, no position reset) */
+.nw-runline-track{display:flex;flex:0 0 auto;width:max-content;will-change:transform;}
+.nw-runline-group{display:flex;align-items:center;flex:0 0 auto;}
+.nw-run-txt{
+    flex:0 0 auto;
+    display:inline-block;
+    padding:0 36px;
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+    font-size:clamp(30px,4.4vw,58px);
+    line-height:1;
+    text-transform:uppercase;
+    letter-spacing:-.5px;
+    /* empty by default — JS fills it white as it nears the screen centre */
+    color:transparent;
+    -webkit-text-stroke:1.3px rgba(243,231,216,.5);
+    cursor:default;
+    transform-origin:center;
+    will-change:transform;
+    /* springy, non-linear ease with a soft overshoot */
+    transition:transform .55s cubic-bezier(.34,1.56,.64,1);
+}
+/* the word under the cursor scales up smoothly (no box glow) */
+.nw-run-txt:hover{transform:scale(1.1);}
+.nw-run-star{
+    flex:0 0 auto;
+    color:#ff7a1a;
+    font-size:clamp(20px,2.6vw,32px);
+    line-height:1;
+    filter:drop-shadow(0 0 10px rgba(255,122,26,.6));
+}
+/* ---- news slider (#Using) ---- */
+#Using.nb-sec{padding-top:32px;}
+#Using .nw-slider{position:relative;}
+.nw-viewport{overflow:hidden;border-radius:30px;}
+.nw-track{display:flex;transition:transform .65s cubic-bezier(.2,.8,.2,1);will-change:transform;}
+/* liquid-glass panel */
+.nw-slide{
+    flex:0 0 100%;
+    display:grid;
+    grid-template-columns:.92fr 1.08fr;
+    min-height:360px;
+    background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 30px 70px rgba(0,0,0,.4);
+    overflow:hidden;
+}
+/* media column = orange brand tile (flush inside the glass panel) */
+.nw-col--media{
+    position:relative;
+    padding:34px 36px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    color:#1a0a00;
+    background:linear-gradient(150deg,#ff8a2a 0%,#ff5400 62%,#df470a 100%);
+    overflow:hidden;
+}
+.nw-col--media::after{
+    content:"";
+    position:absolute;right:-90px;bottom:-90px;
+    width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.35),transparent 65%);
+    pointer-events:none;
+}
+.nw-badge{
+    position:relative;z-index:1;
+    align-self:flex-start;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.14em;
+    padding:7px 14px;border-radius:999px;
+    background:rgba(26,10,0,.16);
+    border:1px solid rgba(26,10,0,.22);
+}
+.nw-num{
+    position:relative;z-index:1;
+    font-family:'Manrope',sans-serif;
+    font-weight:900;
+    font-size:clamp(72px,9vw,128px);
+    line-height:.85;
+    letter-spacing:-4px;
+    color:rgba(26,10,0,.9);
+}
+.nw-mark{position:relative;z-index:1;font-size:1.35rem;color:#1a0a00;}
+.nw-mark .kvy-br{color:#3a1402;text-shadow:none;}
+/* text column */
+.nw-col--text{
+    padding:54px 56px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:16px;
+}
+.nw-date{
+    align-self:flex-start;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.78rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.08em;
+    color:#ff8a2a;
+    padding:6px 14px;border-radius:999px;
+    border:1px solid rgba(255,138,42,.4);
+    background:rgba(255,122,26,.10);
+}
+.nw-title{
+    font-family:'Manrope',sans-serif;
+    font-weight:800;
+    font-size:clamp(24px,2.6vw,38px);
+    line-height:1.08;
+    letter-spacing:-1px;
+    color:#fff;
+}
+.nw-desc{
+    font-size:1.02rem;
+    line-height:1.65;
+    color:rgba(255,255,255,.72);
+    max-width:560px;
+}
+/* controls */
+.nw-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    margin-top:34px;
+}
+.nw-prev,.nw-next{
+    position:relative;
+    width:54px;height:54px;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;color:#fff;
+    background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.03));
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+    isolation:isolate;
+    will-change:transform;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1),
+               box-shadow .4s cubic-bezier(.2,.8,.2,1),
+               background .3s, color .3s, border-color .3s;
+}
+/* warm halo that blooms on hover — same language as the CTA buttons */
+.nw-prev::before,.nw-next::before{
+    content:"";
+    position:absolute;inset:-3px;border-radius:inherit;
+    background:radial-gradient(circle at 50% 100%,rgba(255,122,26,.6),transparent 70%);
+    opacity:0;filter:blur(12px);z-index:-1;pointer-events:none;
+    transition:opacity .4s ease;
+}
+.nw-prev:hover,.nw-next:hover{
+    background:linear-gradient(150deg,#ff8a2a,#ff5400);
+    color:#1a0a00;border-color:transparent;
+    transform:translateY(-5px) scale(1.08);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 20px 44px rgba(255,90,20,.45);
+}
+.nw-prev:hover::before,.nw-next:hover::before{opacity:1;}
+.nw-prev:active,.nw-next:active{transform:translateY(-2px) scale(1.03);transition-duration:.15s;}
+.nw-dots{display:flex;align-items:center;gap:10px;}
+.nw-dot{
+    width:9px;height:9px;border-radius:50%;cursor:pointer;
+    background:rgba(255,255,255,.22);
+    border:none;padding:0;transition:.3s;
+}
+.nw-dot.is-active{background:#ff7a1a;width:26px;border-radius:6px;box-shadow:0 0 12px rgba(255,122,26,.6);}
+
+@media(max-width:760px){
+    .nw-slide{grid-template-columns:1fr;}
+    .nw-col--media{flex-direction:row;align-items:center;justify-content:space-between;padding:22px 24px;}
+    .nw-num{font-size:64px;}
+    .nw-col--text{padding:34px 26px;}
+    .nw-run-txt{padding:0 22px;}
 }
