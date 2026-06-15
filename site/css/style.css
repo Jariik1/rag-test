@@ -2278,6 +2278,15 @@ footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,255,255,.0
     transform:translateY(0) scale(1);
     filter:blur(0);
 }
+/* keep the reveal transition authoritative — some blocks define their own
+   transition (e.g. .nb-pp-row, .nb-res-card) which would otherwise clobber
+   it and make them pop in instantly instead of floating up */
+.kvyyk-body .hidden,
+.kvyyk-body .show{
+    transition:opacity 1s cubic-bezier(.16,.84,.3,1),
+               transform 1.1s cubic-bezier(.16,.84,.3,1),
+               filter 1s ease;
+}
 .nb-tech:nth-child(2).hidden,.nb-team-card:nth-child(2).hidden,.nb-res-card:nth-child(2).hidden,.nb-sum-card:nth-child(2).hidden,.nb-arch-item:nth-child(2).hidden{transition-delay:.12s;}
 .nb-tech:nth-child(3).hidden,.nb-team-card:nth-child(3).hidden,.nb-res-card:nth-child(3).hidden,.nb-sum-card:nth-child(3).hidden{transition-delay:.26s;}
 .nb-tech:nth-child(4).hidden,.nb-team-card:nth-child(4).hidden,.nb-res-card:nth-child(4).hidden{transition-delay:.40s;}
