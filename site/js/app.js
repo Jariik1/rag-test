@@ -554,18 +554,18 @@ document.querySelectorAll(".nb-carousel").forEach(function(car){
 });
 
 /* =========================
-   RUNLINE — JS marquee (smooth speed easing, position never resets)
+   RUNNING-LINE MARQUEE — JS driven
+   • smooth speed easing on hover (no jump, position kept)
+   • each word/phrase scales up on hover
+   • words fill white as they near the screen centre (empty -> white)
+   shared by the journal news runline and the home-page marquees.
 ========================= */
-document.querySelectorAll(".section--runline").forEach(function(sec){
-    const track = sec.querySelector(".nw-runline-track");
-    const group = sec.querySelector(".nw-runline-group");
-    if(!track || !group) return;
-    const words = Array.prototype.slice.call(sec.querySelectorAll(".nw-run-txt"));
+function nbInitMarquee(sec, track, group, words, normal, slow, dir){
+    if(!sec || !track || !group) return;
 
-    // fill each word white as it nears the centre of the screen (empty -> white)
     function paintWords(){
         const cx = window.innerWidth / 2;
-        const range = window.innerWidth * 0.30;
+        const range = window.innerWidth * 0.22;      // narrow band = quick ignition
         words.forEach(function(w){
             const r = w.getBoundingClientRect();
             let t = 1 - Math.abs((r.left + r.width / 2) - cx) / range;
@@ -581,32 +581,69 @@ document.querySelectorAll(".section--runline").forEach(function(sec){
         return;
     }
 
-    const NORMAL = 58, SLOW = 12;          // px per second
-    let target = NORMAL, speed = NORMAL;
+    let target = normal, speed = normal;
     let x = 0;
     let groupW = group.offsetWidth;
     let last = performance.now();
+    let running = false, raf = null;
 
     const remeasure = function(){ groupW = group.offsetWidth; };
     window.addEventListener("resize", remeasure);
     window.addEventListener("load", remeasure);
     if(document.fonts && document.fonts.ready){ document.fonts.ready.then(remeasure); }
 
-    sec.addEventListener("mouseenter", function(){ target = SLOW; });
-    sec.addEventListener("mouseleave", function(){ target = NORMAL; });
+    sec.addEventListener("mouseenter", function(){ target = slow; });
+    sec.addEventListener("mouseleave", function(){ target = normal; });
 
     function frame(now){
         const dt = Math.min((now - last) / 1000, 0.05);
         last = now;
         // ease speed toward target — no jump, current position is kept
         speed += (target - speed) * Math.min(dt * 5, 1);
-        x -= speed * dt;
-        if(groupW > 0){ while(x <= -groupW){ x += groupW; } }
+        x -= speed * dt * dir;
+        if(groupW > 0){
+            while(x <= -groupW){ x += groupW; }
+            while(x > 0){ x -= groupW; }
+        }
         track.style.transform = "translateX(" + x + "px)";
         paintWords();
-        requestAnimationFrame(frame);
+        if(running) raf = requestAnimationFrame(frame);
     }
-    requestAnimationFrame(frame);
+
+    // run only while on screen (no work when scrolled away)
+    new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting && !running){
+                running = true; last = performance.now(); raf = requestAnimationFrame(frame);
+            }else if(!e.isIntersecting && running){
+                running = false; if(raf) cancelAnimationFrame(raf);
+            }
+        });
+    }, {threshold:0}).observe(sec);
+}
+
+// journal news runline
+document.querySelectorAll(".section--runline").forEach(function(sec){
+    nbInitMarquee(
+        sec,
+        sec.querySelector(".nw-runline-track"),
+        sec.querySelector(".nw-runline-group"),
+        Array.prototype.slice.call(sec.querySelectorAll(".nw-run-txt")),
+        58, 12, 1
+    );
+});
+
+// home-page marquees (forward + reverse rows)
+document.querySelectorAll(".nb-marq").forEach(function(sec){
+    const track = sec.querySelector(".nb-marq-track");
+    nbInitMarquee(
+        sec,
+        track,
+        sec.querySelector(".nb-marq-seq"),
+        Array.prototype.slice.call(sec.querySelectorAll(".nb-marq-seq > span")),
+        75, 16,
+        (track && track.classList.contains("nb-marq-track--rev")) ? -1 : 1
+    );
 });
 
 /* =========================
