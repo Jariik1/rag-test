@@ -721,13 +721,16 @@ document.querySelectorAll("[data-news-slider]").forEach(function(root){
     if(!core) return;
     if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    const RANGE = 150;             // px the core drifts across the whole zone
     let ticking = false;
     function update(){
         const r = zone.getBoundingClientRect();
-        // grows as the zone scrolls up through the viewport
-        const enter = window.innerHeight - r.top;
-        const shift = Math.max(-120, Math.min(120, enter * 0.05));   // subtle, clamped
-        core.style.transform = "translateY(" + (-shift) + "px)";
+        const zoneCenter = r.top + r.height / 2;
+        const viewCenter = window.innerHeight / 2;
+        // p: -1 (zone below viewport) .. +1 (zone above) — continuous through the zone
+        let p = (viewCenter - zoneCenter) / ((window.innerHeight + r.height) / 2);
+        p = Math.max(-1, Math.min(1, p));
+        core.style.transform = "translateY(" + (p * RANGE) + "px)";
         ticking = false;
     }
     window.addEventListener("scroll", function(){
