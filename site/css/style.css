@@ -4174,7 +4174,7 @@ select:focus-visible{
     transition:transform .4s cubic-bezier(.2,.8,.2,1);
 }
 /* the word under the cursor scales up smoothly (no box glow) */
-.nw-run-txt:hover{transform:scale(1.2);}
+.nw-run-txt:hover{transform:scale(1.1);}
 .nw-run-txt.is-outline{
     color:transparent;
     -webkit-text-stroke:1.4px rgba(255,138,42,.7);

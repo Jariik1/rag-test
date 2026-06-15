@@ -411,7 +411,7 @@ window.addEventListener("scroll", () => {
    MAGNETIC HOVER on FABs
 ========================= */
 const magnets =
-    document.querySelectorAll(".nb-fab, .nb-cta-btn, .nb-back-btn, .nb-mob-btn");
+    document.querySelectorAll(".nb-fab, .nb-cta-btn, .nb-back-btn, .nb-mob-btn, .nw-prev, .nw-next");
 
 magnets.forEach(el => {
     el.addEventListener("mousemove", (e) => {
