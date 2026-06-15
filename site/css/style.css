@@ -2029,6 +2029,24 @@ body{
     text-align:center;
     color:#fff;
 }
+/* "core" lead-in sitting right over the glowing core, above the CTA */
+.nb-cta-eyebrow{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.82rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.2em;
+    color:#ffba78;
+    margin-bottom:16px;
+    text-shadow:0 0 22px rgba(255,140,45,.45);
+}
+.nb-cta-lead{
+    max-width:560px;
+    margin:0 auto 30px;
+    font-size:clamp(18px,2vw,24px);
+    line-height:1.5;
+    font-weight:600;
+    color:rgba(255,255,255,.9);
+}
 .nb-cta h2{
     font-family:'Manrope',sans-serif;
     font-weight:800;
