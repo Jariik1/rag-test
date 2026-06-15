@@ -373,6 +373,187 @@ if(scScreens.length){
 }
 
 /* =========================
+   HOME CTA REVEAL SNAP
+========================= */
+(function(){
+    const stage =
+        document.querySelector(".nb-cta-scroll-stage");
+    if(!stage) return;
+
+    const cta =
+        stage.querySelector(".nb-cta");
+    if(!cta) return;
+
+    const desktopMq =
+        window.matchMedia("(min-width: 1001px)");
+    const reduceMq =
+        window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    let ticking = false;
+    let snapTimer = null;
+    let snapping = false;
+    let lastY = window.scrollY || 0;
+    let direction = 1;
+    let progress = 0;
+    let ctaWasSnapped = false;
+
+    const clamp = (value, min, max) =>
+        Math.max(min, Math.min(max, value));
+
+    const smooth = (value) =>
+        value * value * (3 - 2 * value);
+
+    function setStageVars(p){
+        const kpiDissolve =
+            smooth(clamp((p - 0.82) / 0.12, 0, 1));
+        const ctaReveal =
+            smooth(clamp((p - 0.94) / 0.06, 0, 1));
+
+        stage.style.setProperty(
+            "--kpi-blur",
+            (kpiDissolve * 14).toFixed(2) + "px"
+        );
+        stage.style.setProperty(
+            "--kpi-shift",
+            (-kpiDissolve * 64).toFixed(2) + "px"
+        );
+        stage.style.setProperty(
+            "--kpi-opacity",
+            (1 - kpiDissolve * 0.66).toFixed(3)
+        );
+        stage.style.setProperty(
+            "--cta-opacity",
+            ctaReveal.toFixed(3)
+        );
+        stage.style.setProperty(
+            "--cta-core-opacity",
+            ctaReveal.toFixed(3)
+        );
+        stage.style.setProperty(
+            "--cta-shield-opacity",
+            "0"
+        );
+        stage.style.setProperty(
+            "--cta-shift",
+            "0px"
+        );
+    }
+
+    function resetStageVars(){
+        stage.style.removeProperty("--kpi-blur");
+        stage.style.removeProperty("--kpi-shift");
+        stage.style.removeProperty("--kpi-opacity");
+        stage.style.removeProperty("--cta-opacity");
+        stage.style.removeProperty("--cta-core-opacity");
+        stage.style.removeProperty("--cta-shield-opacity");
+        stage.style.removeProperty("--cta-shift");
+    }
+
+    function update(){
+        ticking = false;
+
+        if(!desktopMq.matches || reduceMq.matches){
+            progress = 0;
+            resetStageVars();
+            return;
+        }
+
+        const currentY =
+            window.scrollY || 0;
+        direction =
+            currentY >= lastY ? 1 : -1;
+        lastY = currentY;
+
+        const rect =
+            cta.getBoundingClientRect();
+        progress =
+            clamp(
+                (window.innerHeight - rect.top) /
+                window.innerHeight,
+                0,
+                1
+            );
+
+        if(rect.top > window.innerHeight * 0.9){
+            ctaWasSnapped = false;
+        }
+
+        setStageVars(progress);
+    }
+
+    function requestUpdate(){
+        if(!ticking){
+            requestAnimationFrame(update);
+            ticking = true;
+        }
+    }
+
+    function maybeSnap(){
+        if(
+            !desktopMq.matches ||
+            reduceMq.matches ||
+            snapping ||
+            direction < 0 ||
+            ctaWasSnapped ||
+            progress < 0.76
+        ){
+            return;
+        }
+
+        const rect =
+            cta.getBoundingClientRect();
+        if(
+            rect.top < -window.innerHeight * 0.65 ||
+            rect.top > window.innerHeight * 0.24
+        ){
+            return;
+        }
+
+        const target =
+            window.scrollY +
+            rect.top;
+
+        if(Math.abs(window.scrollY - target) < 12){
+            ctaWasSnapped = true;
+            return;
+        }
+
+        snapping = true;
+        ctaWasSnapped = true;
+        window.scrollTo({
+            top:target,
+            behavior:"smooth"
+        });
+
+        setTimeout(() => {
+            const settle =
+                cta.getBoundingClientRect().top;
+            if(Math.abs(settle) > 4 && Math.abs(settle) < 80){
+                window.scrollTo({
+                    top:window.scrollY + settle,
+                    behavior:"auto"
+                });
+            }
+            snapping = false;
+            requestUpdate();
+        }, 900);
+    }
+
+    function onScroll(){
+        requestUpdate();
+        clearTimeout(snapTimer);
+        snapTimer =
+            setTimeout(maybeSnap, 120);
+    }
+
+    window.addEventListener("scroll", onScroll, {passive:true});
+    window.addEventListener("resize", requestUpdate);
+    desktopMq.addEventListener("change", requestUpdate);
+    reduceMq.addEventListener("change", requestUpdate);
+    requestUpdate();
+})();
+
+/* =========================
    MOBILE SHOWCASE — feature pills reveal
 ========================= */
 const featPills =

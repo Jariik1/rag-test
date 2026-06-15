@@ -4378,12 +4378,80 @@ select:focus-visible{
    GRADIENT CORE — home bottom (marquee → CTA → footer)
    one breathing radial "sun" behind the zone, with subtle parallax.
 ========================= */
+/* Desktop CTA reveal scene: KPI/TECH dissolves while the CTA rises over it. */
+.nb-cta-scroll-stage{
+    --kpi-blur:0px;
+    --kpi-shift:0px;
+    --kpi-opacity:1;
+    --cta-opacity:1;
+    --cta-core-opacity:1;
+    --cta-shield-opacity:0;
+    --cta-shift:0px;
+    position:relative;
+    background:#050505;
+    isolation:isolate;
+}
+@media(min-width:1001px){
+    .nb-cta-scroll-stage{
+        --cta-opacity:0;
+        --cta-core-opacity:0;
+        --cta-shield-opacity:0;
+        --cta-shift:0px;
+    }
+    .nb-cta-scroll-stage .nb-glass-foot{
+        min-height:100vh;
+        padding-top:90px;
+        padding-bottom:calc(180px + 48vh);
+        transform:translateY(var(--kpi-shift));
+        filter:blur(var(--kpi-blur));
+        opacity:var(--kpi-opacity);
+        will-change:transform,filter,opacity;
+        transition:filter .12s linear, opacity .12s linear;
+        z-index:1;
+    }
+    .nb-cta-scroll-stage .nb-core-zone{
+        margin-top:-100vh;
+        z-index:3;
+    }
+    .nb-cta-scroll-stage .nb-core-zone::before{
+        content:"";
+        position:absolute;
+        inset:0 0 auto;
+        height:100vh;
+        z-index:0;
+        pointer-events:none;
+        background:transparent;
+        opacity:var(--cta-shield-opacity);
+    }
+    .nb-cta-scroll-stage .nb-cta{
+        min-height:100vh;
+        padding:120px 60px 90px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        transform:translateY(var(--cta-shift));
+        opacity:var(--cta-opacity);
+        will-change:transform,opacity;
+    }
+}
+@media(max-width:1000px){
+    .nb-cta-scroll-stage{
+        --kpi-blur:0px;
+        --kpi-shift:0px;
+        --kpi-opacity:1;
+        --cta-opacity:1;
+        --cta-core-opacity:1;
+        --cta-shield-opacity:0;
+        --cta-shift:0px;
+    }
+}
+
 /* overflow:clip keeps the glow + its parallax shift from extending the
    document scroll height beyond the real end of the page */
 .nb-core-zone{position:relative;overflow:clip;}
 .nb-core-zone > section,
 .nb-core-zone > footer{position:relative;z-index:1;}
-.nb-core{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;will-change:transform;}
+.nb-core{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;will-change:transform;opacity:var(--cta-core-opacity, 1);}
 /* separate layer for the hover "ignite" so it never fights the parallax
    (on .nb-core) or the breathing (on .nb-core-glow) */
 .nb-core-scale{
