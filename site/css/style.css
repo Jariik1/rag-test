@@ -4197,31 +4197,30 @@ select:focus-visible{
 /* ---- news slider (#Using) ---- */
 #Using.nb-sec{padding-top:32px;}
 #Using .nw-slider{position:relative;}
-.nw-viewport{overflow:hidden;}
+.nw-viewport{overflow:hidden;border-radius:30px;}
 .nw-track{display:flex;transition:transform .65s cubic-bezier(.2,.8,.2,1);will-change:transform;}
-/* slides float on the unified background — no dark panel */
+/* liquid-glass panel */
 .nw-slide{
     flex:0 0 100%;
     display:grid;
-    grid-template-columns:.8fr 1.2fr;
-    gap:46px;
-    align-items:center;
-    min-height:330px;
-    padding:6px;
+    grid-template-columns:.92fr 1.08fr;
+    min-height:360px;
+    background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 30px 70px rgba(0,0,0,.4);
+    overflow:hidden;
 }
-/* media column = rounded orange brand tile */
+/* media column = orange brand tile (flush inside the glass panel) */
 .nw-col--media{
     position:relative;
-    align-self:stretch;
-    min-height:300px;
     padding:34px 36px;
-    border-radius:28px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
     color:#1a0a00;
     background:linear-gradient(150deg,#ff8a2a 0%,#ff5400 62%,#df470a 100%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 26px 56px rgba(160,55,0,.32);
     overflow:hidden;
 }
 .nw-col--media::after{
@@ -4254,7 +4253,7 @@ select:focus-visible{
 .nw-mark .kvy-br{color:#3a1402;text-shadow:none;}
 /* text column */
 .nw-col--text{
-    padding:18px 16px 18px 0;
+    padding:54px 56px;
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -4318,9 +4317,9 @@ select:focus-visible{
 .nw-dot.is-active{background:#ff7a1a;width:26px;border-radius:6px;box-shadow:0 0 12px rgba(255,122,26,.6);}
 
 @media(max-width:760px){
-    .nw-slide{grid-template-columns:1fr;gap:22px;}
-    .nw-col--media{flex-direction:row;align-items:center;justify-content:space-between;min-height:auto;padding:22px 24px;}
+    .nw-slide{grid-template-columns:1fr;}
+    .nw-col--media{flex-direction:row;align-items:center;justify-content:space-between;padding:22px 24px;}
     .nw-num{font-size:64px;}
-    .nw-col--text{padding:0 4px;}
+    .nw-col--text{padding:34px 26px;}
     .nw-run-txt{padding:0 22px;}
 }
