@@ -4172,7 +4172,8 @@ select:focus-visible{
     cursor:default;
     transform-origin:center;
     will-change:transform;
-    transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    /* springy, non-linear ease with a soft overshoot */
+    transition:transform .55s cubic-bezier(.34,1.56,.64,1);
 }
 /* the word under the cursor scales up smoothly (no box glow) */
 .nw-run-txt:hover{transform:scale(1.1);}
